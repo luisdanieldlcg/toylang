@@ -12,6 +12,10 @@ all: ${OUTPUT_DIR} $(OBJECTS)
 run: all
 	@./${OUTPUT_DIR}/${EXEC}
 
+install:
+	make
+	cp ./${OUTPUT_DIR}/${EXEC} /usr/local/bin/${EXEC}
+
 %.o: %.c
 	gcc -c $(FLAGS) $< -o $@
 

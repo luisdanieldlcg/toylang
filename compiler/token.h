@@ -2,7 +2,7 @@
 #define TOKEN_H
 
 typedef enum TokenType {
-    TOKEN_ID,
+    TOKEN_KEYWORD,
     TOKEN_EQ,
     TOKEN_STR,
     TOKEN_LPAREN,

@@ -40,7 +40,7 @@ Token* lexer_make_id_token(Lexer* lexer) {
         strcat(value, str);
         lexer_step(lexer);
     }
-    return token_create(TOKEN_ID, value);
+    return token_create(TOKEN_KEYWORD, value);
 }
 
 Token* lexer_make_str_token(Lexer* lexer) {
