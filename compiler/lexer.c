@@ -1,10 +1,8 @@
-
 #include "lexer.h"
 #include "token.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-
 
 Lexer* lexer_init(char *code)  {
     Lexer* lexer = malloc(sizeof(Lexer));
@@ -28,14 +26,21 @@ void lexer_skip_whitespace(Lexer* lexer) {
 }
 
 Token* lexer_make_token(Lexer* lexer, TokenType type) {
+    Token* token = token_create(type, lexer_char_as_str(lexer));
     lexer_step(lexer);
-    return token_create(type, lexer_char_as_str(lexer));
+    return token;
 }
 
 Token* lexer_make_id_token(Lexer* lexer) {
-    lexer_step(lexer);
-    char value = 0;
-    return 0;
+    char* value = malloc(sizeof(char));
+    value[0] = '\0';
+    while (isalnum(lexer->character)) {
+        char* str = lexer_char_as_str(lexer);
+        value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
+        strcat(value, str);
+        lexer_step(lexer);
+    }
+    return token_create(TOKEN_ID, value);
 }
 
 Token* lexer_make_str_token(Lexer* lexer) {
@@ -64,8 +69,7 @@ Token* lexer_next_token(Lexer* lexer) {
             return lexer_make_str_token(lexer);
         }
         if (isalnum(lexer->character)) {
-            // TODO: make id token
-            lexer_step(lexer);
+            return lexer_make_id_token(lexer);
         }
         switch (lexer->character) {
             case '=': return lexer_make_token(lexer, TOKEN_EQ);

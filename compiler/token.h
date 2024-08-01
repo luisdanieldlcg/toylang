@@ -18,3 +18,4 @@ typedef struct Token {
 Token* token_create(TokenType type, char* value);
 
 #endif
+
